@@ -1,5 +1,6 @@
 package mazeSolver;
 
+import maze.Cell;
 import maze.Maze;
 
 /**
@@ -8,17 +9,33 @@ import maze.Maze;
 
 public class WallFollowerSolver implements MazeSolver {
 	
+	private boolean isSolved = false;
+	
 	@Override
 	public void solveMaze(Maze maze) {
-		// TODO Auto-generated method stub
+		
+		Cell currCell = maze.entrance;
+		int dir = 0;
+		while( currCell != maze.exit ) {
+			if( currCell.tunnelTo != null ) {
+				currCell = currCell.tunnelTo;
+			}
+			if( !currCell.wall[dir].present ){
+//				currCell = maze.map[ currCell.r + Maze.deltaR[dir] ][ currCell.c + Maze.deltaC[dir] ];
+				currCell = currCell.neigh[dir];
+				dir--;
+			} else {
+				dir++;
+			}
+		}
+		isSolved = true;
         
 	} // end of solveMaze()
     
     
 	@Override
 	public boolean isSolved() {
-		// TODO Auto-generated method stub
-		return false;
+		return isSolved;
 	} // end if isSolved()
     
     

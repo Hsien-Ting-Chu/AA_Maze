@@ -1,6 +1,3 @@
-/*
- * Copyright (C) 2016 Ricky Wu.
- */
 package mazeGenerator;
 
 import maze.Cell;
@@ -12,11 +9,11 @@ import static maze.Maze.HEX;
 
 public class ModifiedPrimsGenerator implements MazeGenerator {
 
-	/** The cell set. */
-	private List<Cell> cellSet;
+	/** The cell set Z. */
+	private List<Cell> cellSetZ;
 
-	/** The cell set new. */
-	private List<Cell> cellSetNew;
+	/** The cell set F. */
+	private List<Cell> cellSetF;
 
 	/** The dir_arr. */
 	// Random direction
@@ -33,8 +30,8 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 	 */
 	@Override
 	public void generateMaze(Maze maze) {
-		cellSet = new ArrayList<>();
-		cellSetNew = new ArrayList<>();
+		cellSetZ = new ArrayList<>();
+		cellSetF = new ArrayList<>();
 
 		for (int i = 0; i < maze.sizeR; i++) {
 			int initC = 0, sizeC = maze.sizeC;
@@ -44,32 +41,32 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 			}
 			for (int j = initC; j < sizeC; j++) {
 				Cell current = maze.map[i][j];
-				cellSet.add(current);
+				cellSetZ.add(current);
 			}
 		}
-		Collections.shuffle(cellSet);
+		Collections.shuffle(cellSetZ);
 		// Initial a cell in new cell set
-		Cell randCell = cellSet.remove(0);
-		cellSetNew.add(randCell);
+		Cell randCell = cellSetZ.remove(0);
+		cellSetF.add(randCell);
 
 		do {
 
-			Collections.shuffle(cellSetNew);
+			Collections.shuffle(cellSetF);
 			// Pick a random cell in new cell set
 			boolean found = false;
 			// Indicator for finding a neighbor not in original cell set
-			for (Cell temp : cellSetNew) {
+			for (Cell temp : cellSetF) {
 				// Shuffle direction array
 				Collections.shuffle(rand_dir);
 				// Go through random order neighbors of a random cell picked in
 				// new cell set
 				for (int dir : rand_dir) {
-					Cell ne = temp.neigh[dir];
+					Cell nei = temp.neigh[dir];
 					// If this neighbor can be found in cellset
-					if (cellSet.contains(ne)) {
+					if (cellSetZ.contains(nei)) {
 						// remove it from cellSet then add it to new cell set
-						cellSet.remove(ne);
-						cellSetNew.add(ne);
+						cellSetZ.remove(nei);
+						cellSetF.add(nei);
 						temp.wall[dir].present = false;
 						found = true;
 						break;
@@ -80,6 +77,6 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 					break;
 			}
 
-		} while (cellSet.size() != 0);
+		} while (cellSetZ.size() != 0);
 	} // end of generateMaze()
 } // end of class ModifiedPrimsGenerator

@@ -1,6 +1,3 @@
-/*
- * Copyright (C) 2016 Ricky Wu.
- */
 package mazeGenerator;
 
 import maze.Cell;
@@ -13,23 +10,23 @@ import static maze.Maze.*;
 
 public class RecursiveBacktrackerGenerator implements MazeGenerator {
 
-	/** The maze refernece. */
+	/** The maze reference. */
 	private Maze maze;
 
-	/** The rand. */
-	private Random rand = new Random();
+	/** The random. */
+	private Random rd = new Random();
 
 	/** The visited 2d array to record which cell is visited */
 	private boolean visited[][];
 
-	/** The a direction array for randomly get a neighbor from direction 0 - 5. */
-	// Random direction
+	/**
+	 * The a direction array for randomly get a neighbor from direction 0 - 5. Random direction
+	 */
 	private Integer[] dir_arr = { 0, 1, 2, 3, 4, 5 };
 	private List<Integer> rand_dir = Arrays.asList(dir_arr);
 
 	/**
 	 * Generate maze.
-	 *
 	 * @param maze
 	 *            the maze passed in by main function
 	 */
@@ -48,11 +45,11 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 		int rr = 0;
 		int rc = 0;
 		while (!isIn(rr, rc)) {
-			rr = rand.nextInt(maze.sizeR);
+			rr = rd.nextInt(maze.sizeR);
 			if (maze.type == HEX)
-				rc = rand.nextInt(maze.sizeC + (maze.sizeR + 1) / 2);
+				rc = rd.nextInt(maze.sizeC + (maze.sizeR + 1) / 2);
 			else
-				rc = rand.nextInt(maze.sizeC);
+				rc = rd.nextInt(maze.sizeC);
 		}
 
 		Cell randCell = maze.map[rr][rc];
@@ -62,13 +59,6 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 	} // end of generateMaze()
 
 	/**
-	 * Carve passage. Recursive function for walkthrough unvisited cells and
-	 * carve the wall randomly to generate a perfect maze. 1. Set the initial
-	 * cell to visited 2. Set current cell as visited and make the reference
-	 * point to the cell it tunnels to. 3. Randomly get a neighbor and keep
-	 * carving walls until hit the dead end 4. Return to a cell still has
-	 * unvisited neighbor to continue carving through passage. 5. Finish until
-	 * there is no where to keep doing carving walls
 	 *
 	 * @param cell
 	 *            the cell
@@ -100,20 +90,21 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 	 */
 	private int randomlyChoseNeighbor(Cell cell) {
 
-		//if(!isIn(cell)) return -1;
+		// if(!isIn(cell)) return -1;
 
 		List<Integer> neighsDir = new ArrayList<>();
 		Collections.shuffle(rand_dir);
-		// Go through random order neighbors of a random cell picked in new cell set
-		for(int dir: rand_dir) {
-			Cell ne = cell.neigh[dir];
-			if(ne != null && !isCellVisited(ne)) {
+		// Go through random order neighbors of a random cell picked in new cell
+		// set
+		for (int dir : rand_dir) {
+			Cell nei = cell.neigh[dir];
+			if (nei != null && !isCellVisited(nei)) {
 				neighsDir.add(dir);
 			}
 		}
 		int neighDir = -1;
-		if(neighsDir.size() > 0)
-			neighDir = neighsDir.get(rand.nextInt(neighsDir.size()));
+		if (neighsDir.size() > 0)
+			neighDir = neighsDir.get(rd.nextInt(neighsDir.size()));
 
 		return neighDir;
 	}
@@ -128,10 +119,15 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 	 * @return true, if is in
 	 */
 	protected boolean isIn(int r, int c) {
-		boolean result = r >= 0 && r < maze.sizeR && c >= 0 && c < maze.sizeC;
-		if (maze.type == HEX)
-			result = r >= 0 && r < maze.sizeR && c >= (r + 1) / 2 && c < maze.sizeC + (r + 1) / 2;
-
+		boolean result = false;
+		if (r >= 0 && r < maze.sizeR && c >= 0 && c < maze.sizeC) {
+			result = true;
+		}
+		if (maze.type == HEX) {
+			if (r >= 0 && r < maze.sizeR && c >= (r + 1) / 2 && c < maze.sizeC + (r + 1) / 2)
+				;
+			result = true;
+		}
 		return result;
 	} // end of isIn()
 

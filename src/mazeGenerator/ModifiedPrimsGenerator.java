@@ -2,9 +2,7 @@ package mazeGenerator;
 
 import maze.Cell;
 import maze.Maze;
-
 import java.util.*;
-
 import static maze.Maze.HEX;
 
 public class ModifiedPrimsGenerator implements MazeGenerator {
@@ -15,8 +13,7 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 	/** The cell set F. */
 	private List<Cell> cellSetF;
 
-	/** The dir_arr. */
-	// Random direction
+	/** The dir_arr.Random direction */
 	private Integer[] dir_arr = { 0, 1, 2, 3, 4, 5 };
 
 	/** The rand_dir. */
@@ -33,8 +30,11 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 		cellSetZ = new ArrayList<>();
 		cellSetF = new ArrayList<>();
 
+		/**Pick a random cell and add it to setZ */
 		for (int i = 0; i < maze.sizeR; i++) {
-			int initC = 0, sizeC = maze.sizeC;
+			int initC = 0;
+			int sizeC = maze.sizeC;
+			
 			if (maze.type == HEX) {
 				initC = (i + 1) / 2;
 				sizeC = sizeC + (i + 1) / 2;
@@ -44,27 +44,28 @@ public class ModifiedPrimsGenerator implements MazeGenerator {
 				cellSetZ.add(current);
 			}
 		}
+		//shuffle the cellSetZ 
 		Collections.shuffle(cellSetZ);
-		// Initial a cell in new cell set
+		// Random pick up a cell from cellSetZ and remove it
 		Cell randCell = cellSetZ.remove(0);
+		// Add the cell picked up from cellSetZ to cellSetF 
 		cellSetF.add(randCell);
 
 		do {
 
 			Collections.shuffle(cellSetF);
-			// Pick a random cell in new cell set
+			// Pick a random cell in cell setF
 			boolean found = false;
-			// Indicator for finding a neighbor not in original cell set
+			// Indicator for finding a neighbor not in cell setF
 			for (Cell temp : cellSetF) {
 				// Shuffle direction array
 				Collections.shuffle(rand_dir);
-				// Go through random order neighbors of a random cell picked in
-				// new cell set
+				// Go through random order neighbors of a random cell picked in cell setF
 				for (int dir : rand_dir) {
 					Cell nei = temp.neigh[dir];
-					// If this neighbor can be found in cellset
+					// If this neighbor can be found in cell setZ
 					if (cellSetZ.contains(nei)) {
-						// remove it from cellSet then add it to new cell set
+						// remove it from cellSetZ then add it to cell setF
 						cellSetZ.remove(nei);
 						cellSetF.add(nei);
 						temp.wall[dir].present = false;

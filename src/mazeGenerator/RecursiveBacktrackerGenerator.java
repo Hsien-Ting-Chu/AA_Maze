@@ -1,12 +1,9 @@
 package mazeGenerator;
 
 import maze.Cell;
-import maze.HexMaze;
 import maze.Maze;
-
 import java.util.*;
-
-import static maze.Maze.*;
+import static maze.Maze.HEX;
 
 public class RecursiveBacktrackerGenerator implements MazeGenerator {
 
@@ -41,7 +38,7 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 			}
 		}
 
-		// Get a random cell to start generating maze
+		// Randomly pick up a starting cell 
 		int rr = 0;
 		int rc = 0;
 		while (!isIn(rr, rc)) {
@@ -94,8 +91,7 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 
 		List<Integer> neighsDir = new ArrayList<>();
 		Collections.shuffle(rand_dir);
-		// Go through random order neighbors of a random cell picked in new cell
-		// set
+		// Go through random order neighbors of a random cell picked in new cell set
 		for (int dir : rand_dir) {
 			Cell nei = cell.neigh[dir];
 			if (nei != null && !isCellVisited(nei)) {

@@ -32,8 +32,8 @@ public class GrowingTreeGenerator implements MazeGenerator {
 	@Override
 	public void generateMaze(Maze maze) {
 		cellSetZ = new ArrayList<>();
-		
 		this.maze = maze;
+		
 		// initialize visited 2d array
 		visited = new boolean[maze.sizeR][maze.sizeC];
 		for (boolean[] r : visited) {
@@ -41,7 +41,7 @@ public class GrowingTreeGenerator implements MazeGenerator {
 				c = false;
 			}
 		}
-
+		
 		//Pick a random cell and add it to setZ
 		for (int i = 0; i < maze.sizeR; i++) {
 			int initC = 0;
@@ -56,9 +56,10 @@ public class GrowingTreeGenerator implements MazeGenerator {
 				cellSetZ.add(current);
 			}
 		}
+		
 		//shuffle the cellSetZ 
 		Collections.shuffle(cellSetZ);
-		// Random pick up a cell from cellSetZ and remove it
+		// Random pick up a cell from cellSetZ and remove it from cellsetZ
 		Cell randCell = cellSetZ.remove(0);
 
 		// Call carvePassage recursively to generate a maze

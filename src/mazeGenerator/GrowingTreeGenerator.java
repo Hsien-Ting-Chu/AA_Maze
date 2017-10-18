@@ -5,6 +5,12 @@ import maze.Maze;
 import maze.Cell;
 import static maze.Maze.HEX;
 
+/**
+ * Compute brute force - wall follower traversal on a graph.
+ * 
+ *  @author Hsien-Ting Chu s3592460
+ */
+
 public class GrowingTreeGenerator implements MazeGenerator {
 	// Growing tree maze generator. As it is very general, here we implement as "usually pick the most recent cell, but occasionally pick a random cell"
 	

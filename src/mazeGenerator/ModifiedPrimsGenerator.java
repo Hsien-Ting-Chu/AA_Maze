@@ -4,7 +4,9 @@ import maze.Cell;
 import maze.Maze;
 import java.util.*;
 import static maze.Maze.HEX;
-
+/**
+ *  @author Hsien-Ting Chu s3592460
+ */
 public class ModifiedPrimsGenerator implements MazeGenerator {
 
 	/** The cell set Z. */

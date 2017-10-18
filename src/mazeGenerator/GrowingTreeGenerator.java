@@ -92,7 +92,7 @@ public class GrowingTreeGenerator implements MazeGenerator {
 		// Random pick up a cell from cellSetZ and remove it from cellsetZ
 		Cell randCell = cellSetZ.remove(0);
 
-		// Call carvePassage recursively to generate a maze
+		// Call carvePath recursively to generate a maze
 		carvePath(randCell);
 
 	} // end of generateMaze()

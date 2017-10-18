@@ -76,7 +76,7 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 		}
 
 		Cell randCell = maze.map[rr][rc];
-		// Call carvePassage recursively to generate a maze
+		// Call carvePassth recursively to generate a maze
 		carvePath(randCell);
 
 	} // end of generateMaze()

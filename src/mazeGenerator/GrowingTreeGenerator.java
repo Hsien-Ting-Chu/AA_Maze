@@ -19,7 +19,7 @@ public class GrowingTreeGenerator implements MazeGenerator {
 	private List<Cell> cellSetZ;
 	
 	/**
-	 * The a direction array for randomly get a neighbor from direction 0 - 5. Random direction
+	 * The a direction array for randomly get a neighbour from direction 0 - 5. Random direction
 	 */
 	private Integer[] dir_arr = { 0, 1, 2, 3, 4, 5 };
 	private List<Integer> rand_dir = Arrays.asList(dir_arr);
@@ -120,7 +120,7 @@ public class GrowingTreeGenerator implements MazeGenerator {
 	 *
 	 * @param cell
 	 *            the cell
-	 * @return the direction of its neighbor.
+	 * @return the direction of its neighbour.
 	 */
 	private int randomlyChoseNeighbour(Cell cell) {
 

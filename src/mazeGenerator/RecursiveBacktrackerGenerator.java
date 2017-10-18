@@ -22,11 +22,37 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 	private Integer[] dir_arr = { 0, 1, 2, 3, 4, 5 };
 	private List<Integer> rand_dir = Arrays.asList(dir_arr);
 
-	/**
-	 * Generate maze.
-	 * @param maze
-	 *            the maze passed in by main function
-	 */
+	/** 
+     *This generator uses the DFS principle to generate mazes. Starting with a maze where all walls are
+     *present, i.e., between every cell is a wall, it uses the following procedure to generate a maze.
+     * 
+     * ******************************************************************************************
+     * 
+     * ALGORITHM DFS ( Maze )
+     * Perform a depth first search traversal of a graph.	
+     * Input: Maze maze.
+     * OUTPUT : Maze maze with its cells that marked after they were visited,
+     *          and displays on a graph user interface.
+     * 
+     * 1: Visited = [][]
+     * // mark all cells in both 2D-arrays unvisited
+     * for (boolean[] r : visited) {
+	 *	for (boolean c : r) {
+	 *		c = false;
+	 * 		}
+	 * 	}
+     * end for
+     * // initiate cells from the entrance and the exit of maze 
+     * 2: Randomly pick a starting cell.
+     * 3: Carve a path between the cells recursively. 
+     * 4: Continue this process until we reach a cell that has no unvisited neighbours.
+     * 5: When there are no more unvisited neighbours for all cells, then every cell would have been visited
+     * and we have generated a perfect maze.
+     * 
+     * ******************************************************************************************
+     * 
+     * @param maze Input maze.
+     */
 	@Override
 	public void generateMaze(Maze maze) {
 		this.maze = maze;
@@ -51,47 +77,47 @@ public class RecursiveBacktrackerGenerator implements MazeGenerator {
 
 		Cell randCell = maze.map[rr][rc];
 		// Call carvePassage recursively to generate a maze
-		carvePassage(randCell);
+		carvePath(randCell);
 
 	} // end of generateMaze()
 
-	/**
+	/**Carve path recursively
 	 *
 	 * @param cell
 	 *            the cell
 	 */
-	private void carvePassage(Cell cell) {
+	private void carvePath(Cell cell) {
 
 		setCellVisited(cell);
 		if (cell.tunnelTo != null) {
 			cell = cell.tunnelTo;
 			setCellVisited(cell);
 		}
-		int dir = randomlyChoseNeighbor(cell);
+		int dir = randomlyChoseNeighbour(cell);
 		Cell neigh;
 		while (dir != -1) {
 			neigh = cell.neigh[dir];
 			cell.wall[dir].present = false;
-			carvePassage(neigh);
-			dir = randomlyChoseNeighbor(cell);
+			carvePath(neigh);
+			dir = randomlyChoseNeighbour(cell);
 
 		}
 	}
 
 	/**
-	 * Randomly chose a neighbor of a cell.
+	 * Randomly chose a neighbour of a cell.
 	 *
 	 * @param cell
 	 *            the cell
 	 * @return the direction of its neighbor.
 	 */
-	private int randomlyChoseNeighbor(Cell cell) {
+	private int randomlyChoseNeighbour(Cell cell) {
 
 		// if(!isIn(cell)) return -1;
 
 		List<Integer> neighsDir = new ArrayList<>();
 		Collections.shuffle(rand_dir);
-		// Go through random order neighbors of a random cell picked in new cell set
+		// Go through random order neighbours of a random cell picked in new cell set
 		for (int dir : rand_dir) {
 			Cell nei = cell.neigh[dir];
 			if (nei != null && !isCellVisited(nei)) {

@@ -29,6 +29,36 @@ public class GrowingTreeGenerator implements MazeGenerator {
 
 	double threshold = 0.1;
 	
+	/** 
+     * This generator is based on Prim's algorithm for computing minimum spanning tree. We used the
+     * modified version of it. Starting with a maze where all walls are present, i.e., between every cell is
+     *  a wall, it uses the following procedure to generate a maze:
+     * 
+     * ******************************************************************************************
+     * 
+     * ALGORITHM Prim's ( Maze )
+     * Perform a Prim's traversal of a graph.
+     * Input: Maze maze.
+     * OUTPUT : Maze maze with its cellsetZ that includes every cell,
+     *          and displays on a graph user interface.
+     * 
+     * 1: Visited = [][]
+     * // mark all cells in both 2D-arrays unvisited
+     * for (boolean[] r : visited) {
+	 *	for (boolean c : r) {
+	 *		c = false;
+	 * 		}
+	 * 	}
+     * end for
+     * 2: Add every cell to cellSetZ then make it random by shuffling it. 
+     * 3: Pick up a cell from cellSetZ and remove it until cellSetZ is empty.
+     * 4: Carve a path between the cells and its neighbour recursively. 
+     * 5: Continue this process until we have visited all its neighbours.
+     * 
+     * ******************************************************************************************
+     * 
+     * @param maze Input maze.
+     */	
 	@Override
 	public void generateMaze(Maze maze) {
 		cellSetZ = new ArrayList<>();
@@ -63,42 +93,42 @@ public class GrowingTreeGenerator implements MazeGenerator {
 		Cell randCell = cellSetZ.remove(0);
 
 		// Call carvePassage recursively to generate a maze
-		carvePassage(randCell);
+		carvePath(randCell);
 
 	} // end of generateMaze()
 	
-	private void carvePassage(Cell cell) {
+	private void carvePath(Cell cell) {
 
 		setCellVisited(cell);
 		if (cell.tunnelTo != null) {
 			cell = cell.tunnelTo;
 			setCellVisited(cell);
 		}
-		int dir = randomlyChoseNeighbor(cell);
+		int dir = randomlyChoseNeighbour(cell);
 		Cell neigh;
 		while (dir != -1) {
 			neigh = cell.neigh[dir];
 			cell.wall[dir].present = false;
-			carvePassage(neigh);
-			dir = randomlyChoseNeighbor(cell);
+			carvePath(neigh);
+			dir = randomlyChoseNeighbour(cell);
 
 		}
 	}
 
 	/**
-	 * Randomly chose a neighbor of a cell.
+	 * Randomly chose a neighbour of a cell.
 	 *
 	 * @param cell
 	 *            the cell
 	 * @return the direction of its neighbor.
 	 */
-	private int randomlyChoseNeighbor(Cell cell) {
+	private int randomlyChoseNeighbour(Cell cell) {
 
 		// if(!isIn(cell)) return -1;
 
 		List<Integer> neighsDir = new ArrayList<>();
 		Collections.shuffle(rand_dir);
-		// Go through random order neighbors of a random cell picked in new cell set
+		// Go through random order neighbours of a random cell picked in new cell set
 		for (int dir : rand_dir) {
 			Cell nei = cell.neigh[dir];
 			if (nei != null && !isCellVisited(nei)) {

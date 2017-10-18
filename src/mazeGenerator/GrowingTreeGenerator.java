@@ -232,9 +232,3 @@ public class GrowingTreeGenerator implements MazeGenerator {
 	}
 
 } // end of class GrowingTreeGenerator
-
-	
-	
-	
-
-

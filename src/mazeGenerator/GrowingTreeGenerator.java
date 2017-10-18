@@ -6,8 +6,6 @@ import maze.Cell;
 import static maze.Maze.HEX;
 
 /**
- * Compute brute force - wall follower traversal on a graph.
- * 
  *  @author Hsien-Ting Chu s3592460
  */
 
